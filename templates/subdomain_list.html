@@ -1,0 +1,39 @@
+{% extends 'root.html' %}
+
+{% block body %}
+    <body class="layui-anim layui-anim-up">
+    <div class="x-body">
+        <table id="demo" lay-filter="test"></table>
+    </div>
+    </body>
+{% endblock %}
+
+
+{% block script %}
+
+
+
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+
+            //第一个实例
+            table.render({
+                elem: '#demo'
+                , url: '/api/domain/list/'+{{ target_id }} //数据接口
+                , page: false //开启分页
+                , cols: [[ //表头
+                    {field: 'id', title: 'ID', width: '5%'}
+                    , {field: 'sub_domain', title: '子域名', width: '20%'}
+                    , {field: 'ip', title: 'IP', width: '20%'}
+                    , {field: 'ip_addr', title: '地理位置', width: '25%'}
+                    , {field: 'remark', title: '备注', width: '30%'}
+
+                ]]
+            });
+
+
+
+        });
+    </script>
+{% endblock %}

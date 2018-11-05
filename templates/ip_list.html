@@ -1,0 +1,37 @@
+{% extends 'root.html' %}
+
+{% block body %}
+    <body class="layui-anim layui-anim-up">
+    <div class="x-body">
+        <table id="demo" lay-filter="test"></table>
+    </div>
+    </body>
+{% endblock %}
+
+
+{% block script %}
+
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+
+            //第一个实例
+            table.render({
+                elem: '#demo'
+                , url: '/api/port/list/'+{{ target_id }} //数据接口
+                , page: false //开启分页
+                , cols: [[ //表头
+                    {field: 'id', title: 'ID', width: '5%'}
+                    , {field: 'ip', title: 'IP', width: '15%'}
+                    , {field: 'port', title: '端口', width: '20%'}
+                    , {field: 'port_state', title: '状态', width: '20%'}
+                    , {field: 'name', title: '服务', width: '20%'}
+                    , {field: 'version', title: '版本信息', width: '20%'}
+
+
+
+                ]]
+            });
+        });
+    </script>
+{% endblock %}

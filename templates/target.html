@@ -1,0 +1,66 @@
+{% extends 'root.html' %}
+
+{% block css   %}
+    {{ block.super }}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+{% block body %}
+
+
+    <div class="col-md-10 col-sm-offset-1 text-center">
+        <br>
+
+        <br>
+
+{#   <a href="/index/" target="_top">#}
+{#                    <cite>主页</cite>#}
+{#                </a>#}
+
+
+            <table class="table table-bordered table-striped">
+                <tbody>
+
+                <tr>
+                    <td>目标</td>
+                    <td>{{ obj.target_name }}</td>
+
+                </tr>
+                <tr>
+                    <td>主要网址</td>
+                    <td>{{ obj.main_host }}</td>
+
+                </tr>
+                <tr>
+                    <td>备注</td>
+                    <td>{{ obj.remark }}</td>
+
+                </tr>
+                <tr>
+                    <td><a href="/target/domain/{{ obj.id }}">子域名数量</a>
+                    </td>
+                    <td>{{ subdomain_count }}</td>
+
+                </tr>
+                <tr>
+                    <td><a href="/target/iplist/{{ obj.id }}">IP数量</a></td>
+                    <td>{{ ipcount }}</td>
+
+                </tr>
+                <tr>
+                    <td>更新时间</td>
+                    <td>{{ obj.uptime|date:"Y-m-d H:i:s" }}</td>
+
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}
