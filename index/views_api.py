@@ -1,7 +1,7 @@
 import json
 import datetime
 from django.http import HttpResponse
-from index.models import Target, Subdomain, Ipinfo
+from index.models import Target, Subdomain, Ipinfo,CTarget,CIpDomain
 from index import task
 
 
@@ -83,3 +83,37 @@ def api_target_scan(request):
     task.startscan.delay(target_id)
     resp = {'code': 1, 'msg': '开始扫描', 'data': {}}
     return HttpResponse(json.dumps(resp), content_type="application/json")
+
+# ---------------- C段API接口 -------------------------------
+
+def api_c_add(request):
+    target_name = request.POST['target_name']
+    c_ip = request.POST['c_ip']
+    remark = request.POST['remark']
+    target = CTarget(target_name=target_name, remark=remark, c_ip=c_ip)
+    target.save()
+    resp = {'code': 1, 'msg': '增加成功', 'data': {}}
+    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+
+def api_c_list(request):
+    objs = CTarget.objects.all()
+    dict_data = convert_to_dicts(objs)
+    json_data = {'code': 0, 'msg': '', 'count': 100, 'data': dict_data}
+    data = json.dumps(json_data, cls=CJsonEncoder)
+    return HttpResponse(data, content_type="application/json")
+
+
+def api_c_scan(request):
+    target_id = request.POST['target_id']
+    task.start_bingc_scan.delay(target_id)
+    resp = {'code': 1, 'msg': '开始扫描', 'data': {}}
+    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+def api_c_ip2doamin_list(request, target_id):
+
+    objs = CIpDomain.objects.filter(target_id=target_id)
+    dict_data = convert_to_dicts(objs)
+    json_data = {'code': 0, 'msg': '', 'count': 100, 'data': dict_data}
+    data = json.dumps(json_data, cls=CJsonEncoder)
+    return HttpResponse(data, content_type="application/json")

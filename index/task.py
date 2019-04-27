@@ -2,17 +2,18 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 import nmap
 from index.util.scan import domian_scan
-from index.models import Subdomain, Target, Ipinfo
+from index.util.bingc import bingc
+from index.models import Subdomain, Target, Ipinfo,CTarget,CIpDomain
 
-from celery.signals import worker_process_init
-from multiprocessing import current_process
-
-@worker_process_init.connect
-def fix_multiprocessing(**kwargs):
-    try:
-        current_process()._config
-    except AttributeError:
-        current_process()._config = {'semprefix': '/mp'}
+# from celery.signals import worker_process_init
+# from multiprocessing import current_process
+#
+# @worker_process_init.connect
+# def fix_multiprocessing(**kwargs):
+#     try:
+#         current_process()._config
+#     except AttributeError:
+#         current_process()._config = {'semprefix': '/mp'}
 
 
 @shared_task
@@ -73,5 +74,24 @@ def startscan(target_id):
     target_obj.status = 2
     target_obj.save()
 
+
+@shared_task
+def start_bingc_scan(target_id):
+
+    target_obj = CTarget.objects.get(id=target_id)
+    print(target_obj.c_ip)
+    target_obj.status = 1
+    target_obj.save()
+    c_result=bingc(target_obj.c_ip)
+
+    for i in c_result:
+        x=i.split(":",1)
+        print(x)
+        obj=CIpDomain(target_id=target_id,ip=x[0],domain=x[1],remark="")
+        obj.save()
+    target_obj.status = 2
+    target_obj.save()
+
+    print("扫描完成，域名数量: " + str(len(c_result)))
 
 

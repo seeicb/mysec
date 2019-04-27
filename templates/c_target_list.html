@@ -1,0 +1,143 @@
+{% extends 'root.html' %}
+
+{% block body %}
+    <body class="layui-anim layui-anim-up">
+    <div class="x-body">
+        <table id="demo" lay-filter="test"></table>
+    </div>
+    </body>
+{% endblock %}
+
+
+{% block script %}
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit"> 编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+
+    <script type="text/html" id="statusTpl">
+{#0未扫描  1扫描中 2扫描完成#}
+        {% verbatim %}
+
+        {{#  if(d.status == 1){ }}
+        <button class="layui-btn layui-btn-sm layui-btn-danger">扫描中</button>
+
+        {{#  } else if(d.status == 2)  { }}
+        <button class="layui-btn layui-btn-sm">已完成</button>
+
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-sm layui-btn-normal" onclick="start_scan(this,{{ d.id }})" href="javascript:;" >未开始</button>
+
+
+        {{#  } }}
+        {% endverbatim %}
+
+    </script>
+
+
+    <script>
+          function start_scan(obj,id){
+
+          layer.confirm('确认开始扫描？',function(index){
+              //发异步删除数据
+                 $.ajaxSetup({
+                            data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
+                        });
+
+                        $.ajax({
+                            url: '/api/c/scan/',
+                            method: 'post',
+                            data: {target_id:id},
+                            success: function (res) {
+                                console.log(res)
+                                if (res.code == 1) {
+                                    layer.msg('已开始!',{icon:1,time:1000});
+                                    location.reload();
+
+
+                                }
+                                else
+                                    layer.alert("删除失败", {icon: 5});
+                            },
+                            error: function (data) {
+                            }
+                        })
+                        {#return false;#}
+
+
+          });
+      }
+
+    </script>
+    <script>
+        layui.use('table', function () {
+            var table = layui.table;
+
+            //第一个实例
+            table.render({
+                elem: '#demo'
+                , url: '/api/c/list/' //数据接口
+                , page: false //开启分页
+                , cols: [[ //表头
+                    {field: 'id', title: 'ID', width: '5%'}
+                    , {field: 'target_name', title: '目标', width: '15%'}
+                    , {field: 'c_ip', title: 'C段IP', width: '20%'}
+
+                    , {field: 'remark', title: '备注', width: '20%'}
+                    , {field: 'uptime', title: '添加时间', width: '15%'}
+
+                    , {field: 'status', title: '状态', templet: '#statusTpl', width: '10%'}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: '15%'}
+                ]]
+            });
+
+            //监听行工具事件
+            table.on('tool(test)', function (obj) {
+                var data = obj.data;
+                //console.log(obj)
+                if (obj.event === 'del') {
+                    layer.confirm('真的删除行么', function (index) {
+
+
+                        $.ajaxSetup({
+                            data: {csrfmiddlewaretoken: '{{ csrf_token }}', target_id: data.id},
+                        });
+
+                        $.ajax({
+                            url: '/api/target/del/',
+                            method: 'post',
+                            data: data.field,
+                            success: function (res) {
+                                console.log(res)
+                                if (res.code == 1) {
+                                    obj.del();
+                                    layer.close(index);
+                                }
+                                else
+                                    layer.alert("删除失败", {icon: 5});
+                            },
+                            error: function (data) {
+                            }
+                        })
+                        {#return false;#}
+
+
+                    });
+
+                } else if (obj.event === 'edit') {
+                    x_admin_show('编辑', '/target/edit/' + data.id + '/');
+                    {#todo:重新刷新页面#}
+
+                } else if (obj.event == 'detail') {
+                    {#alert(data.id)#}
+                    window.location.href = '/c/ip2domain/'+data.id+'/' ;
+
+                }
+
+
+            });
+
+        });
+    </script>
+{% endblock %}

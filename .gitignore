@@ -2,6 +2,7 @@ index/util/tmp/
 /templates/test.html
 .idea/
 my.cnf
+mysec.db
 
 static/lib/layui/images/
 

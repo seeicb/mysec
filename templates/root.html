@@ -1,29 +1,30 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-	 <title> {% block title %}mysec{% endblock %}</title>
+    <title> {% block title %}mysec{% endblock %}</title>
 
-	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" />
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
-        {% block css %}
-    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="/static/css/font.css">
-	<link rel="stylesheet" href="/static/css/xadmin.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="/static/lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/static/js/xadmin.js"></script>
+    {% block css %}
+        <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon"/>
+        <link rel="stylesheet" href="/static/css/font.css">
+        <link rel="stylesheet" href="/static/css/xadmin.css">
+        <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+        <script src="/static/lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="/static/js/xadmin.js"></script>
     {% endblock %}
 
 </head>
 
 
 {% block body %}
-<body>
+    <body>
     <!-- 顶部开始 -->
     <div class="container">
         <div class="logo"><a href="">Mysec</a></div>
@@ -31,40 +32,41 @@
             <i title="展开左侧栏" class="iconfont">&#xe699;</i>
         </div>
         <ul class="layui-nav left fast-add" lay-filter="">
-          <li class="layui-nav-item">
-            <a href="javascript:;">+新增</a>
-            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+            <li class="layui-nav-item">
+                <a href="javascript:;">+新增</a>
+                <dl class="layui-nav-child"> <!-- 二级菜单 -->
 
-              <dd><a onclick="x_admin_show('添加目标','/target/add/',600,400)"><i class="iconfont"></i>目标</a></dd>
+                    <dd><a onclick="x_admin_show('添加根域名','/target/add/',600,400)"><i class="iconfont"></i>根域名</a></dd>
+                    <dd><a onclick="x_admin_show('添加C段IP','/c/add/',600,400)"><i class="iconfont"></i>C段</a></dd>
 
-            </dl>
-          </li>
+                </dl>
+            </li>
         </ul>
     </div>
     <!-- 顶部结束 -->
 
     <!-- 中部开始 -->
 
-     <!-- 左侧菜单开始 -->
-    <div class="left-nav" style="bottom: 0px">
+
+    <!-- 左侧菜单开始 -->
+    <div class="left-nav">
       <div id="side-nav">
         <ul id="nav">
-            <li>
-                <a _href="/index/">
-                    <i class="iconfont">&#xe6b8;</i>
-                    <cite>主页</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
+                <ul >
+                    <li date-refresh="1">
+                        <a _href="/index/">
+                            <i class="iconfont">&#xe6b8;</i>
+                            <cite>主页</cite>
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="/c/">
+                            <i class="iconfont">&#xe723;</i>
+                            <cite>C段IP</cite>
+                        </a>
+                    </li >
 
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe723;</i>
-                    <cite>IP管理</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-
-            </li>
+             </ul>
         </ul>
       </div>
     </div>
@@ -75,14 +77,14 @@
     <!-- 右侧主体开始 -->
     <div class="page-content" style="bottom: 0px">
         <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
-          <ul class="layui-tab-title">
-            <li class="home"><i class="layui-icon">&#xe68e;</i>主页</li>
-          </ul>
-          <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
-                <iframe src='/index/' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+            <ul class="layui-tab-title">
+                <li class="home"><i class="layui-icon">&#xe68e;</i>主页</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <iframe src='/index/' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                </div>
             </div>
-          </div>
         </div>
     </div>
 
@@ -90,7 +92,7 @@
     <!-- 右侧主体结束 -->
     <!-- 中部结束 -->
 
-</body>
+    </body>
 {% endblock %}
 
 {% block script %}

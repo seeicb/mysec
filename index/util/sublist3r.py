@@ -40,7 +40,7 @@ if is_windows:
         colorama.init()
         #Now the unicode will work ^_^
     except:
-        print("[!] Error: Coloring libraries not installed, no coloring will be used [Check the readme]")
+        # print("[!] Error: Coloring libraries not installed, no coloring will be used [Check the readme]")
         G = Y = B = R = W = G = Y = B = R = W = ''
 
 else:

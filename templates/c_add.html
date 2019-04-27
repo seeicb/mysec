@@ -36,9 +36,9 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">根域名</label>
+            <label class="layui-form-label">C段IP</label>
             <div class="layui-input-block">
-                <input type="text" name="main_host" required lay-verify="required" placeholder="请输入目标根域名，多个域名使用分号隔开"
+                <input type="text" name="c_ip" required lay-verify="required" placeholder="请输入网段，格式192.168.1.0/24"
                        autocomplete="off"
                        class="layui-input">
             </div>
@@ -75,7 +75,7 @@
             });
 
           $.ajax({
-                url:'/api/target/add/',
+                url:'/api/c/add/',
                 method:'post',
                 data:data.field,
                 success:function(res){

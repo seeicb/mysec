@@ -10,13 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-# celery 配置
-import djcelery
-# 配置celery
-djcelery.setup_loader()
-# 传递消息时使用的redis 的ip 端口 数据库名
-BROKER_URL = 'redis://127.0.0.1:6379/0'
-BROKER_POOL_LIMIT = 0
+
+
 
 import os
 
@@ -33,7 +28,7 @@ SECRET_KEY = 'm&b5#&t5#t6eq&j6ev6$wbppkf075*(k9$o@-+7jiy34q8phvy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['52.197.231.236','127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -42,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'index',
-    'djcelery',
 ]
 
 MIDDLEWARE = [
@@ -77,16 +71,9 @@ WSGI_APPLICATION = 'mysec.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': BASE_DIR+'/my.cnf',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mysec.db',
     }
-
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': 'mydatabase',
-    # }
 }
 
 

@@ -43,4 +43,15 @@ def subdomain_list(request,target_id):
 def ip_list(request,target_id):
     return render(request,'ip_list.html',{'target_id':target_id})
 
+# C段主页
+def c_ip(request):
+    return render(request, 'c_target_list.html')
 
+
+# 增加C段扫描页面
+def c_add(request):
+    return render(request,'c_add.html')
+
+
+def cdomain_list(request,target_id):
+    return render(request,'c_ip2domain.html',{'target_id':target_id})
