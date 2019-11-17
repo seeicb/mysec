@@ -1,44 +1,28 @@
-from .subDomainsBrute import subDomainBrute
-from .sublist3r import sublist3r
-import socket
 import requests
-import re
+import json
+import os
+
 
 def domian_scan(domain):
-    list1 = subDomainBrute(domain)
-    list2=sublist3r(domain)
-
-    subdomain_list = list(set(list1 + list2))
-    print('域名合并结果：',subdomain_list)
-    iplist,geoiplist=get_ip(subdomain_list)
-    return  subdomain_list,iplist,geoiplist
-
-
-# 根据域名获取ip
-def get_ip(domainlist):
+    subdomain = []
     iplist = []
     geoiplist = []
-    for i in range(len(domainlist)):
-        try:
-            ipaddr = socket.gethostbyname(domainlist[i])
-            geoip = get_geoip(ipaddr)
-        except:
-            ipaddr = ""
-            geoip = ""
-        iplist.append(ipaddr)
-        geoiplist.append(geoip)
-    # print(iplist,geoiplist)
-    return iplist, geoiplist
-
+    outfile = 'index/util/result/' + domain + '.txt'
+    cmd = "index/util/amass enum -brute  -ip -o %s -d %s" % (outfile, domain)
+    os.system(cmd)
+    with open(outfile, 'r') as f:
+        for line in f.readlines():
+            tmp = line.strip().split()
+            subdomain.append(tmp[0])
+            iplist.append(tmp[1])
+            geoiplist.append(get_geoip(tmp[1]))
+    return subdomain,iplist,geoiplist
 
 
 # 根据IP获取地理位置
 def get_geoip(ip):
-    url = "http://www.ip138.com/ips1388.asp?ip=%s&action=2" % ip
+    url = "http://api.ip138.com/query/?ip=%s&token=3957f4fd056cd1767bc5aeed4efa4c76" % ip
     r = requests.get(url)
-    r.encoding = "gb2312"
-    html_respon = r.text
-    ma = re.compile("本站数据：(.*?)</li>")
-    pa = ma.search(html_respon)
-    geoip = pa.group()[5:-5]
+    html_respon = json.loads(r.text)
+    geoip = ''.join(html_respon['data'])
     return geoip

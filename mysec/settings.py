@@ -33,7 +33,7 @@ SECRET_KEY = 'm&b5#&t5#t6eq&j6ev6$wbppkf075*(k9$o@-+7jiy34q8phvy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['52.197.231.236','127.0.0.1']
+ALLOWED_HOSTS = ["222.212.94.62"]
 
 
 # Application definition
@@ -77,11 +77,10 @@ WSGI_APPLICATION = 'mysec.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': BASE_DIR+'/my.cnf',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mysec.db',
     }
+
 
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
