@@ -1,4 +1,4 @@
-mysec 是一款信息收集工具，实际上是给nmap,subDomainsBrute和sublist3r这三款工具做了个web界面。:joy:
+mysec 是一款信息收集工具，使用了nmap和amass进行子域名扫描和端口扫描。
 
 可以对指定的域名进行子域名查找，并对所有的子域名IP进行端口扫描，最后汇总。
 
