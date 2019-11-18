@@ -1,11 +1,8 @@
-celery
+celery==3.1.26.post2
 Django
 django-celery
-dnspython
-gevent
-PyMySQL
 python-nmap
-redis
+redis==2.10.6
 requests
 urllib3
 

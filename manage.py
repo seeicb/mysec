@@ -3,9 +3,6 @@ import os
 import sys
 
 
-from gevent import monkey
-monkey.patch_all(thread=False, socket=False)
-
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysec.settings')
     try:
